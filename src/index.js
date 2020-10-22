@@ -15,7 +15,6 @@ client.on("message", (message) => {
   switch (message.content) {
     case "!saludo":
       message.channel.send(`Hello ${message.author}`);
-      message.channel.send("http://youtube.com/lordchein");
       break;
     case "!despedida":
       message.reply("Adios :(");
