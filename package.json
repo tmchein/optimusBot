@@ -1,26 +1,30 @@
 {
-	"name": "bot_discord",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
-	"scripts": {
-		"dev": "nodemon src/index.js",
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"lint": "eslint . --fix"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"dependencies": {
-		"discord.js": "^12.4.0",
-		"dotenv": "^8.2.0"
-	},
-	"devDependencies": {
-		"eslint": "^7.11.0",
-		"eslint-config-prettier": "^6.14.0",
-		"eslint-config-standard": "^15.0.0",
-		"eslint-plugin-node": "^11.1.0",
-		"nodemon": "^2.0.6",
-		"prettier": "^2.1.2"
-	}
+  "name": "bot_discord",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/opus": "^0.3.2",
+    "discord.js": "^12.4.0",
+    "dotenv": "^8.2.0",
+    "ffmpeg-static": "^4.2.7",
+    "opusscript": "0.0.7",
+    "ytdl-core": "^3.4.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.11.0",
+    "eslint-config-prettier": "^6.14.0",
+    "eslint-config-standard": "^15.0.0",
+    "eslint-plugin-node": "^11.1.0",
+    "nodemon": "^2.0.6",
+    "prettier": "^2.1.2"
+  }
 }
