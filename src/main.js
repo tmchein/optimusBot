@@ -15,7 +15,8 @@ let lector = new Twitter({
   access_token_secret: process.env.TOKEN_SECRET_TWITTER
 });
 
-function prueba(message) {
+/* Funcion que trae los ultimos 20 tweets y publica un tweet random */
+function getTweet(message) {
   let random = Math.floor(Math.random() * (20 - 0)) + 0;
   let params = { screen_name: "Johanv65" };
   lector.get("statuses/user_timeline", params, function (error, tweets, response) {
@@ -74,7 +75,7 @@ client.on("message", (message) => {
       client.commands.get("skip").execute(client, message, args, songList);
       break;
     case "twitazo":
-      prueba(message);
+      getTweet(message);
     default:
       break;
   }
