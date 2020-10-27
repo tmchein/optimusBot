@@ -14,7 +14,7 @@ module.exports = {
     /* Si hay canciones reproduciendose las pausa */
     if (data.queue) {
       data.connection.dispatcher.pause();
-      message.channel.send("Se supone que se pausó la música... eso creo...");
+      message.channel.send("Esta bien... ya la pausé 😅");
     }
 
     return undefined;

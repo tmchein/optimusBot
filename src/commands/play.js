@@ -1,31 +1,30 @@
 const ytdl = require("ytdl-core");
+const search = require("youtube-search");
+
+const { MessageEmbed } = require("discord.js");
+const ops = {
+  maxResults: 1,
+  key: process.env.GOOGLE_API_YOUTUBE,
+  type: "video"
+};
 
 module.exports = {
   name: "play",
   async execute(client, message, args, songList) {
     /* Comprueba que el autor este en un canal */
     const voiceChannel = message.member.voice.channel;
+    let results = await search(args.join(" "), ops).catch((err) => console.log(err));
+    let link = results.results[0].link;
+
     if (!voiceChannel) {
       return message.channel.send("Necesitas estar en un canal para reproducir la música");
     }
 
-    /* Comprueba si el bot ya esta en el canal */
-    /* if (message.guild.me.voice.channel) {
-      return message.channel.send("Lo siento, el bot ya esta conectado en este canal");
-    } */
-
-    if (!args[0]) {
-      return message.channel.send("Por favor ingresa el comando '!' seguido del link");
+    if (!link) {
+      return message.channel.send("Por favor ingresa el comando '!' y después escribe la canción que deseas escuchar");
     }
 
-    /* Valida la información */
-    let validate = await ytdl.validateURL(args[0]);
-
-    if (!validate) {
-      return message.channel.send(" Escribe una url valida");
-    }
-
-    let info = await ytdl.getInfo(args[0]);
+    let title = results.results[0].title;
 
     let data = songList.get(message.guild.id) || {};
 
@@ -39,18 +38,21 @@ module.exports = {
 
     /* Añadir a la cola */
     data.queue.push({
-      songTitle: info.videoDetails.title,
-      requester: message.author.tag,
-      url: args[0],
+      songTitle: title,
+      requester: message.author.username,
+      url: link,
       announceChannel: message.channel.id
     });
 
     if (!data.dispatcher) {
       play(client, songList, data);
     } else {
-      message.channel.send(
-        `Añadido a la cola de reproducción: ${info.videoDetails.title} | Añadida por: ${message.author.username}`
-      );
+      let embed = new MessageEmbed()
+        .setColor("#73ffdc")
+        .setTitle(`** Añadido a la cola de reproducción: ${title} **`)
+        .setAuthor(`** Añadida por: [${message.author.username}] **`);
+
+      await message.channel.send(embed);
     }
 
     songList.set(message.guild.id, data);
@@ -59,9 +61,12 @@ module.exports = {
 
 async function play(client, songList, data) {
   /* Primero enviamos el mensaje de reproducción */
-  client.channels.cache
-    .get(data.queue[0].announceChannel)
-    .send(`Reproduciendo ahora: ${data.queue[0].songTitle} | Añadida por: ${data.queue[0].requester}`);
+  let msgEmbed = await new MessageEmbed()
+    .setColor("#eb0e3e")
+    .setTitle(`🎵 Reproduciendo ahora: ${data.queue[0].songTitle} 🎵`)
+    .setAuthor(`Añadida por: ${data.queue[0].requester}`);
+
+  client.channels.cache.get(data.queue[0].announceChannel).send(msgEmbed);
 
   /* luego actualizamos el dispatcher data */
   data.dispatcher = await data.connection.play(ytdl(data.queue[0].url, { filter: "audioonly" }));

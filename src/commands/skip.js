@@ -14,7 +14,7 @@ module.exports = {
     /* salta a la siguiente canción */
     if (data.queue) {
       data.connection.dispatcher.end();
-      message.channel.send("He saltado la música por ti");
+      message.channel.send("Esta bien... ya la salté");
     }
     return undefined;
   }
