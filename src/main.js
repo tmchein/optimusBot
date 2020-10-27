@@ -46,6 +46,9 @@ client.on("message", async (message) => {
     case "skip":
       client.commands.get("skip").execute(client, message, args, songList);
       break;
+    case "help":
+      client.commands.get("help").execute(client, message, args, songList);
+      break;
     default:
       break;
   }
