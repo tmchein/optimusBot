@@ -25,7 +25,7 @@ client.on("ready", () => {
   console.log(client.user.presence.status);
 });
 
-client.on("message", (message) => {
+client.on("message", async (message) => {
   if (!message.content.startsWith(PREFIX)) return; //Retorna si el mensaje no inicia con el prefijo indicado
   const args = message.content.substring(PREFIX.length).split(" ");
   const cmd = args.shift().toLowerCase();
